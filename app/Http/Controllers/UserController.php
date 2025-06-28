@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Sanctum\PersonalAccessToken;
 
 
 class UserController extends Controller
@@ -52,6 +53,20 @@ class UserController extends Controller
             'message' => 'Login successful',
             'access_token' => $token,
             'token_type' => 'Bearer'
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        /** @var PersonalAccessToken|null $token */
+        $token = $request->user()->currentAccessToken();
+
+        if ($token) {
+            $token->delete();
+        }
+
+        return response()->json([
+            'message' => 'Successfully logged out'
         ]);
     }
 

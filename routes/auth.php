@@ -2,10 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\Auth\{AuthContoller, ForgotPasswordController, ResetPasswordController};
 use Illuminate\Http\Request;
 
-Route::post('/register', [UserController::class, 'register']);
-Route::post('/login', [UserController::class, 'login']);
+// AuthRoutes
+Route::post('/register', [AuthContoller::class, 'register']);
+Route::post('/login', [AuthContoller::class, 'login']);
+Route::middleware('auth:sanctum')->post('/logout', [AuthContoller::class, 'logout']);
+
+Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail']);
 
 Route::middleware('auth:sanctum')->get('/user', fn(Request $request) => $request->user());
-Route::middleware('auth:sanctum')->post('/logout', [UserController::class, 'logout']);

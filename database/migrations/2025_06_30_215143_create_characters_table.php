@@ -14,8 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name', 25);
 
-            $table->foreignId('race_id')->nullable()->constrained('char_races')->nullOnDelete();
-            $table->foreignId('class_id')->nullable()->constrained('char_classes')->nullOnDelete();
+            $table->foreignId('race_id')->nullable()->constrained('character_races')->nullOnDelete();
+            $table->foreignId('class_id')->nullable()->constrained('character_classes')->nullOnDelete();
 
             $table->integer('max_hp')->default(0);
             $table->integer('current_hp')->default(0);

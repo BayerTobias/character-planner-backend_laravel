@@ -1,5 +1,9 @@
 <?php
 
+use App\Models\characters\CharacterClass;
+use App\Models\characters\CharacterRace;
+use App\Models\Items\BaseArmor;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,8 +18,8 @@ return new class extends Migration {
             $table->id();
             $table->string('name', 25);
 
-            $table->foreignId('race_id')->nullable()->constrained('character_races')->nullOnDelete();
-            $table->foreignId('class_id')->nullable()->constrained('character_classes')->nullOnDelete();
+            $table->foreignIdFor(CharacterRace::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(CharacterClass::class)->nullable()->constrained()->nullOnDelete();
 
             $table->integer('max_hp')->default(0);
             $table->integer('current_hp')->default(0);
@@ -33,8 +37,8 @@ return new class extends Migration {
             $table->integer('charisma_value');
             $table->integer('charisma_bonus');
 
-            $table->foreignId('armor_id')->nullable()->constrained('base_armors')->nullOnDelete();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignIdFor(BaseArmor::class)->nullable()->constrained()->nullOnDelete();
+            $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
 
             $table->timestamps();
         });

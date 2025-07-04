@@ -1,6 +1,6 @@
 <?php
 
-use App\Models\Items\BaseWeapon;
+use App\Models\items\CustomWeapon;
 use App\Models\Items\WeaponGroup;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -12,10 +12,10 @@ return new class extends Migration {
      */
     public function up(): void
     {
-        Schema::create('base_weapon_weapon_group', function (Blueprint $table) {
+        Schema::create('custom_weapon_weapon_group', function (Blueprint $table) {
             $table->id();
 
-            $table->foreignIdFor(BaseWeapon::class)->constrained()->onDelete('cascade');
+            $table->foreignIdFor(CustomWeapon::class)->constrained()->onDelete('cascade');
             $table->foreignIdFor(WeaponGroup::class)->constrained()->onDelete('cascade');
 
             $table->timestamps();
@@ -27,6 +27,6 @@ return new class extends Migration {
      */
     public function down(): void
     {
-        Schema::dropIfExists('base_weapon_weapon_group');
+        Schema::dropIfExists('custom_weapon_weapon_group');
     }
 };

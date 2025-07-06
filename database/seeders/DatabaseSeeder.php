@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use Database\Seeders\characters\CharacterClassSeeder;
+use Database\Seeders\characters\CharacterRaceSeeder;
 use Database\Seeders\items\BaseArmorSeeder;
 use Database\Seeders\items\BaseWeaponSeeder;
 use Database\Seeders\items\WeaponGroupSeeder;
@@ -20,6 +22,8 @@ class DatabaseSeeder extends Seeder
             BaseArmorSeeder::class,
             WeaponGroupSeeder::class,
             BaseWeaponSeeder::class,
+            CharacterRaceSeeder::class,
+            CharacterClassSeeder::class,
         ]);
 
         // User::factory(10)->create();

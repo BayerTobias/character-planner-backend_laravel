@@ -7,7 +7,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class CustomWeapon extends Model
 {
-    protected $fillable = ['name', 'min_str', 'dmg', 'attribute', 'weight', 'ini_bonus', 'special', 'character_id'];
+    protected $fillable = [
+        'name',
+        'min_str',
+        'dmg',
+        'attribute',
+        'weight',
+        'ini_bonus',
+        'special',
+        'character_id'
+    ];
 
     public function weaponGroups()
     {

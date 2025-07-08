@@ -8,9 +8,17 @@ use Illuminate\Http\Request;
 // AuthRoutes
 Route::post('/register', [AuthContoller::class, 'register']);
 Route::post('/login', [AuthContoller::class, 'login']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthContoller::class, 'logout']);
-
 Route::post('/forgot-password', [ForgotPasswordController::class, 'sendPasswordResetEmail']);
 Route::post('/reset-password', [ResetPasswordController::class, 'resetPassword']);
 
-Route::middleware('auth:sanctum')->get('/user', fn(Request $request) => $request->user());
+Route::middleware('auth:sanctum')->group(function () {
+  Route::post('/logout', [AuthContoller::class, 'logout']);
+  Route::get('/check-auth', [AuthContoller::class, 'checkAuth']);
+  Route::get('/user', fn(Request $request) => $request->user());
+});
+
+
+
+
+
+

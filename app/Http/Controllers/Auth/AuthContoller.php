@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\PersonalAccessToken;
 
+use function Pest\Laravel\json;
+
 class AuthContoller extends Controller
 {
     public function register(Request $request)
@@ -54,6 +56,15 @@ class AuthContoller extends Controller
             'access_token' => $token,
             'token_type' => 'Bearer'
         ]);
+    }
+
+    public function checkAuth()
+    {
+        return response()->json(
+
+            ['message' => 'Authenticated']
+
+        );
     }
 
     public function logout(Request $request)

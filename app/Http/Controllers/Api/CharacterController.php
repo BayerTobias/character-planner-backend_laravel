@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CharacterListResource;
 use App\Http\Resources\CharacterResource;
 use App\Models\characters\Character;
 use Illuminate\Http\Request;
@@ -24,5 +25,16 @@ class CharacterController extends Controller
         }
 
         return new CharacterResource($character);
+    }
+
+    public function getCharactersList()
+    {
+        $user = Auth::user();
+
+        $characters = Character::with(['characterRace', 'characterClass'])
+            ->where('user_id', $user->id)
+            ->get();
+
+        return CharacterListResource::collection($characters);
     }
 }

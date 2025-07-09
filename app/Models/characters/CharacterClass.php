@@ -2,6 +2,7 @@
 
 namespace App\Models\characters;
 
+use App\Models\skills\BasicSkill;
 use Illuminate\Database\Eloquent\Model;
 
 class CharacterClass extends Model
@@ -11,5 +12,10 @@ class CharacterClass extends Model
     public function characters()
     {
         return $this->hasMany(Character::class);
+    }
+
+    public function basicSkills()
+    {
+        return $this->hasMany(BasicSkill::class);
     }
 }

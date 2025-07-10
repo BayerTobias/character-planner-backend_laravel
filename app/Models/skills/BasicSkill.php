@@ -2,6 +2,7 @@
 
 namespace App\Models\skills;
 
+use App\Models\characters\Character;
 use App\Models\characters\CharacterClass;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,5 +14,12 @@ class BasicSkill extends Model
     public function characterClass()
     {
         return $this->belongsTo(CharacterClass::class);
+    }
+
+    public function characters()
+    {
+        $this->belongsToMany(Character::class, 'character_basic_skill')
+            ->withPivot('nodes_skilled')
+            ->withTimestamps();
     }
 }

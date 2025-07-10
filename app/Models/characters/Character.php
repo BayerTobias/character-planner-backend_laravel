@@ -5,6 +5,7 @@ namespace App\Models\characters;
 use App\Models\Items\BaseArmor;
 use App\Models\Items\BaseWeapon;
 use App\Models\items\CustomWeapon;
+use App\Models\skills\BasicSkill;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -67,6 +68,13 @@ class Character extends Model
     public function money()
     {
         return $this->hasOne(Money::class);
+    }
+
+    public function basicSkills()
+    {
+        return $this->belongsToMany(BasicSkill::class, 'character_basic_skill')
+            ->withPivot('nodes_skilled')
+            ->withTimestamps();
     }
 
 }

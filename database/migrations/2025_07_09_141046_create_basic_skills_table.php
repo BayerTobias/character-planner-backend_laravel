@@ -15,7 +15,7 @@ return new class extends Migration {
             $table->id();
 
             $table->string('name', 25);
-            $table->string('description', 100);
+            $table->string('description', 300);
             $table->integer('first_level_cost')->default(1);
             $table->integer('second_level_cost')->nullable();
             $table->foreignIdFor(CharacterClass::class)

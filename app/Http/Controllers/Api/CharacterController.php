@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CharacterCreateUpdateRequest;
 use App\Http\Resources\CharacterListResource;
 use App\Http\Resources\CharacterResource;
 use App\Models\characters\Character;
@@ -36,5 +37,17 @@ class CharacterController extends Controller
             ->get();
 
         return CharacterListResource::collection($characters);
+    }
+
+    public function createOrUpdateCharacter(CharacterCreateUpdateRequest $request)
+    {
+        $validatet = $request->validated();
+
+        $character = new Character($validatet);
+
+        return response()->json([
+            'message' => 'Character object',
+            'character' => $character,
+        ]);
     }
 }

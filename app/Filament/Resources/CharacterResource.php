@@ -5,8 +5,10 @@ namespace App\Filament\Resources;
 use App\Filament\Resources\CharacterResource\Pages;
 use App\Filament\Resources\CharacterResource\RelationManagers;
 use App\Models\characters\Character;
+use App\Models\skills\BasicSkill;
 use Filament\Forms;
 use Filament\Forms\Components\Fieldset;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Form;
@@ -16,6 +18,7 @@ use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use \Illuminate\Support\Facades\Log;
 
 class CharacterResource extends Resource
 {
@@ -67,6 +70,32 @@ class CharacterResource extends Resource
                         TextInput::make('mu')->numeric()->label('Muena')->required()->default(0)->minValue(0),
                     ]),
 
+                Repeater::make('basic_skills')
+                    ->label('Basic Skills')
+                    ->schema(
+                        [
+                            Select::make('skill_id')
+                                ->label('Skill')
+                                ->options(
+                                    BasicSkill::with('characterClass')->get()->mapWithKeys(
+                                        fn($skill) =>
+                                        [
+                                            $skill->id => $skill->name . ' (' . $skill->characterClass?->name . ')'
+                                        ]
+                                    )->toArray()
+                                )
+                                ->required(),
+
+                            TextInput::make('nodes_skilled')
+                                ->label('Nodes Skilled')
+                                ->numeric()
+                                ->default(0),
+                        ]
+                    )
+                    ->columns(2)
+                    ->reorderable(),
+
+
                 TextInput::make('current_lvl')->numeric()->default(1)->required(),
                 TextInput::make('attribute_points')->numeric()->default(8)->required(),
 
@@ -87,6 +116,36 @@ class CharacterResource extends Resource
                 TextInput::make('charisma_bonus')->numeric()->required()
             ]);
     }
+
+    // public static function mutateFormDataBeforeSave(array $data)
+    // {
+    //     $skills = $data['basic_skills'] ?? [];
+    //     unset($data['basic_skills']);
+
+    //     session()->put('basic_skills', $skills);
+
+    //     Log::info('mutateFormDataBeforeSave wurde aufgerufen!', $data);
+
+    //     return $data;
+    // }
+
+    // public static function afterSave(Form $form)
+    // {
+    //     /** @var \App\Models\characters\Character */
+    //     $character = $form->getModel();
+
+    //     dd($character);
+
+    //     $skills = session()->pull('basic_skills', []);
+
+    //     $syncData = collect($skills)->mapWithKeys(fn($item) => [
+    //         $item['skill_id'] => ['nodes_skilled' => $item['nodes_skilled'] ?? 0],
+    //     ])->toArray();
+
+    //     Log::info('afterSave wurde aufgerufen!', $syncData);
+
+    //     $character->basicSkills()->sync($syncData);
+    // }
 
     public static function table(Table $table): Table
     {

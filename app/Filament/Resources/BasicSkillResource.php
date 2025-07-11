@@ -58,7 +58,6 @@ class BasicSkillResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name'),
-                TextColumn::make('description'),
                 TextColumn::make('first_level_cost'),
                 TextColumn::make('second_level_cost'),
                 TextColumn::make('characterClass.name')

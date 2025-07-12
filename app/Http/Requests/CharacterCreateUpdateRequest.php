@@ -24,8 +24,8 @@ class CharacterCreateUpdateRequest extends FormRequest
         return [
             'name' => 'required|string|max:25',
 
-            'character_race_id' => 'required|integer|exists:character_race_id',
-            'character_class_id' => 'required|integer|exists:character_class_id',
+            'character_race_id' => 'required|integer|exists:character_races,id',
+            'character_class_id' => 'required|integer|exists:character_classes,id',
 
             'max_hp' => 'required|integer|min:1',
             'current_hp' => 'required|integer|min:0|lte:max_hp',
@@ -44,8 +44,8 @@ class CharacterCreateUpdateRequest extends FormRequest
             'charisma_value' => 'required|integer|min:1',
             'charisma_bonus' => 'required|integer|',
 
-            'base_armor_id' => 'nullable|integer|exists:base_armor_id',
-            'user_id' => 'required|integer|exists:user_id',
+            'base_armor_id' => 'nullable|integer|exists:base_armors,id',
+            'user_id' => 'required|integer|exists:users,id',
             'current_lvl' => 'required|integer|min:1',
             'attribute_points' => 'required|integer|min:0'
         ];

@@ -28,8 +28,8 @@ class CharacterResource extends JsonResource
             "current_mana" => $this->current_mana,
 
             "character_race" => [
-                'id' => $this->characterRace->id,
-                'name' => $this->characterRace->name,
+                'id' => $this->characterRace?->id,
+                'name' => $this->characterRace?->name,
             ],
 
             "character_class" => [
@@ -50,7 +50,7 @@ class CharacterResource extends JsonResource
                 "weight" => $this->baseArmor->weight,
             ] : null,
 
-            "base_weapons" => $this->baseWeapons->map(
+            "base_weapons" => $this->baseWeapons?->map(
                 fn(BaseWeapon $weapon): array =>
                 [
                     "id" => $weapon->weight,
@@ -61,9 +61,9 @@ class CharacterResource extends JsonResource
                     "weight" => $weapon->weight,
                     "ini_bonus" => $weapon->ini_bonus,
                 ]
-            ),
+            ) ?? [],
 
-            "custom_weapons" => $this->customWeapons->map(
+            "custom_weapons" => $this->customWeapons?->map(
                 fn(CustomWeapon $weapon): array =>
                 [
                     "id" => $weapon->weight,
@@ -75,14 +75,14 @@ class CharacterResource extends JsonResource
                     "ini_bonus" => $weapon->ini_bonus,
                     'special' => $weapon->special,
                 ]
-            ),
+            ) ?? null,
 
             "money" => [
-                "id" => $this->money->id,
-                "gf" => $this->money->gf,
-                "tt" => $this->money->tt,
-                "kl" => $this->money->kl,
-                "mu" => $this->money->mu,
+                "id" => $this->money?->id,
+                "gf" => $this->money?->gf,
+                "tt" => $this->money?->tt,
+                "kl" => $this->money?->kl,
+                "mu" => $this->money?->mu,
             ],
 
             "strength_value" => $this->strength_value,

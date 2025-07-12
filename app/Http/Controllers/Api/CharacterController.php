@@ -43,7 +43,8 @@ class CharacterController extends Controller
     {
         $validatet = $request->validated();
 
-        $character = new Character($validatet);
+        // $character = new Character($validatet);
+        $character = Character::create($validatet);
 
         return response()->json([
             'message' => 'Character object',

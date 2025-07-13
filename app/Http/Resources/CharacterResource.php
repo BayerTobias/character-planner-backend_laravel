@@ -27,63 +27,17 @@ class CharacterResource extends JsonResource
             "max_mana" => $this->max_mana,
             "current_mana" => $this->current_mana,
 
-            "character_race" => [
-                'id' => $this->characterRace?->id,
-                'name' => $this->characterRace?->name,
-            ],
+            "character_race" => new CharacterRaceResource($this->whenLoaded('characterRace')),
 
-            "character_class" => [
-                "id" => $this->characterClass->id,
-                "name" => $this->characterClass->name,
-                "base_lvl_hp" => $this->characterClass->base_lvl_hp,
-                "base_lvl_mana" => $this->characterClass->base_lvl_mana,
-                "main_stat" => $this->characterClass->main_stat,
-                "color" => $this->characterClass->color,
-            ],
+            "character_class" => new CharacterClassResource($this->whenLoaded('characterClass')),
 
-            "base_armor" => $this->baseArmor ? [
-                "id" => $this->baseArmor->id,
-                "name" => $this->baseArmor->name,
-                "min_str" => $this->baseArmor->min_str,
-                "armor_bonus" => $this->baseArmor->armor_bonus,
-                "maneuver_bonus" => $this->baseArmor->maneuver_bonus,
-                "weight" => $this->baseArmor->weight,
-            ] : null,
+            "base_armor" => new BaseArmorResource($this->whenLoaded('baseArmor')),
 
-            "base_weapons" => $this->baseWeapons?->map(
-                fn(BaseWeapon $weapon): array =>
-                [
-                    "id" => $weapon->weight,
-                    "name" => $weapon->name,
-                    "min_str" => $weapon->min_str,
-                    "dmg" => $weapon->dmg,
-                    "attribute" => $weapon->attribute,
-                    "weight" => $weapon->weight,
-                    "ini_bonus" => $weapon->ini_bonus,
-                ]
-            ) ?? [],
+            "base_weapons" => BaseWeaponResource::collection($this->whenLoaded("baseWeapons")),
 
-            "custom_weapons" => $this->customWeapons?->map(
-                fn(CustomWeapon $weapon): array =>
-                [
-                    "id" => $weapon->weight,
-                    "name" => $weapon->name,
-                    "min_str" => $weapon->min_str,
-                    "dmg" => $weapon->dmg,
-                    "attribute" => $weapon->attribute,
-                    "weight" => $weapon->weight,
-                    "ini_bonus" => $weapon->ini_bonus,
-                    'special' => $weapon->special,
-                ]
-            ) ?? null,
+            "custom_weapons" => CustomWeaponResource::collection($this->whenLoaded('customWeapons')),
 
-            "money" => [
-                "id" => $this->money?->id,
-                "gf" => $this->money?->gf,
-                "tt" => $this->money?->tt,
-                "kl" => $this->money?->kl,
-                "mu" => $this->money?->mu,
-            ],
+            "money" => new MoneyResource($this->whenLoaded('money')),
 
             "strength_value" => $this->strength_value,
             "strength_bonus" => $this->strength_bonus,

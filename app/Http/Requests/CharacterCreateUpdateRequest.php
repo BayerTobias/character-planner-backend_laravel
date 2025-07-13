@@ -45,9 +45,15 @@ class CharacterCreateUpdateRequest extends FormRequest
             'charisma_bonus' => 'required|integer|',
 
             'base_armor_id' => 'nullable|integer|exists:base_armors,id',
-            'user_id' => 'required|integer|exists:users,id',
             'current_lvl' => 'required|integer|min:1',
-            'attribute_points' => 'required|integer|min:0'
+            'attribute_points' => 'required|integer|min:0',
+
+            'money' => 'required|array',
+            'money.gf' => 'required|integer|min:0',
+            'money.kl' => 'required|integer|min:0',
+            'money.mu' => 'required|integer|min:0',
+            'money.tt' => 'required|integer|min:0',
+
         ];
     }
 }

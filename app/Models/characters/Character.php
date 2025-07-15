@@ -73,7 +73,7 @@ class Character extends Model
     public function basicSkills()
     {
         return $this->belongsToMany(BasicSkill::class, 'character_basic_skill')
-            ->withPivot('nodes_skilled')
+            ->withPivot('nodes_skilled', 'id')
             ->withTimestamps();
     }
 

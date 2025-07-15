@@ -54,6 +54,10 @@ class CharacterCreateUpdateRequest extends FormRequest
             'money.mu' => 'required|integer|min:0',
             'money.tt' => 'required|integer|min:0',
 
+            'skilled_skills' => 'required|array',
+            'skilled_skills.*.id' => 'required|integer|exists:basic_skills,id',
+            'skilled_skills.*.nodes_skilled' => 'required|integer|min:1'
+
         ];
     }
 }

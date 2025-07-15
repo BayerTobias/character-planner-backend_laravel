@@ -39,6 +39,8 @@ class CharacterResource extends JsonResource
 
             "money" => new MoneyResource($this->whenLoaded('money')),
 
+            "skilled_skills" => SkilledSkillResource::collection($this->whenLoaded('basicSkills')),
+
             "strength_value" => $this->strength_value,
             "strength_bonus" => $this->strength_bonus,
             "agility_value" => $this->agility_value,

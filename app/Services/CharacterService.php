@@ -19,6 +19,7 @@ class CharacterService
 
     $this->updateOrCreateMoney($character, $validated['money']);
     $this->syncBasicSkills($character, $validated['skilled_skills']);
+    $this->syncBasicWeapons($character, $validated['base_weapons']);
 
     return $character;
   }
@@ -51,5 +52,10 @@ class CharacterService
       ])->all();
 
     $character->basicSkills()->sync($syncData);
+  }
+
+  private function syncBasicWeapons(Character $character, array $baseWeapons)
+  {
+    $character->baseWeapons()->sync($baseWeapons);
   }
 }

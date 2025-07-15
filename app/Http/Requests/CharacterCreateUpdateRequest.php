@@ -56,7 +56,10 @@ class CharacterCreateUpdateRequest extends FormRequest
 
             'skilled_skills' => 'required|array',
             'skilled_skills.*.id' => 'required|integer|exists:basic_skills,id',
-            'skilled_skills.*.nodes_skilled' => 'required|integer|min:1'
+            'skilled_skills.*.nodes_skilled' => 'required|integer|min:1',
+
+            'base_weapons' => 'required|array',
+            'base_weapons.*' => 'required|integer|exists:base_weapons,id'
 
         ];
     }

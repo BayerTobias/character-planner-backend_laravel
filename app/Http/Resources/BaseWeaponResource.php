@@ -15,13 +15,14 @@ class BaseWeaponResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            "id" => $this->weight,
+            "id" => $this->id,
             "name" => $this->name,
             "min_str" => $this->min_str,
             "dmg" => $this->dmg,
             "attribute" => $this->attribute,
             "weight" => $this->weight,
             "ini_bonus" => $this->ini_bonus,
+            'weapon_group' => WeaponGroupResource::collection($this->weaponGroups)
         ];
     }
 }

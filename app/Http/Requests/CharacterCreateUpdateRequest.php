@@ -22,6 +22,7 @@ class CharacterCreateUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'id' => 'nullable|integer|exists:characters,id',
             'name' => 'required|string|max:25',
 
             'character_race_id' => 'required|integer|exists:character_races,id',
@@ -59,8 +60,19 @@ class CharacterCreateUpdateRequest extends FormRequest
             'skilled_skills.*.nodes_skilled' => 'required|integer|min:1',
 
             'base_weapons' => 'required|array',
-            'base_weapons.*' => 'required|integer|exists:base_weapons,id'
+            'base_weapons.*' => 'required|integer|exists:base_weapons,id',
 
+            'custom_weapons' => 'required|array',
+            'custom_weapons.*.id' => 'nullable|integer|exists:custom_weapons,id',
+            'custom_weapons.*.name' => 'required|string|max:50',
+            'custom_weapons.*.weapon_group' => 'required|array',
+            'custom_weapons.*.weapon_group.*' => 'required|integer|exists:weapon_groups,id',
+            'custom_weapons.*.min_str' => 'nullable|integer',
+            'custom_weapons.*.dmg' => 'required|integer',
+            'custom_weapons.*.attribute' => 'nullable|string|max:5',
+            'custom_weapons.*.weight' => 'nullable|numeric|min:0',
+            'custom_weapons.*.ini_bonus' => 'nullable|integer',
+            'custom_weapons.*.special' => 'nullable|string|max:250',
         ];
     }
 }

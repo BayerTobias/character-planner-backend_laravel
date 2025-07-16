@@ -23,6 +23,7 @@ class CustomWeaponResource extends JsonResource
             "weight" => $this->weight,
             "ini_bonus" => $this->ini_bonus,
             'special' => $this->special,
+            'weapon_group' => WeaponGroupResource::collection($this->weaponGroups)
         ];
     }
 }

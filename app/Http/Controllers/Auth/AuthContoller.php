@@ -14,7 +14,6 @@ class AuthContoller extends Controller
 {
     public function register(Request $request)
     {
-
         // Validation
         $validated = $request->validate([
             'name' => 'required|string|max:50',
@@ -28,6 +27,8 @@ class AuthContoller extends Controller
             'password' => Hash::make($validated['password'])
         ]);
 
+        $user->sendEmailVerificationNotification();
+
         return response()->json([
             'message' => 'User created successfully',
             'user' => $user,
@@ -40,6 +41,7 @@ class AuthContoller extends Controller
             'email' => 'required|email',
             'password' => 'required|string'
         ]);
+
 
         $user = User::where('email', $credentials['email'])
             ->whereNotNull('email_verified_at')

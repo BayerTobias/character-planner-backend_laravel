@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Auth\GoogleAuthController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\{AuthContoller, ForgotPasswordController, ResetPasswordController, VerificationController};
@@ -21,6 +22,12 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
   Route::get('/check-auth', [AuthContoller::class, 'checkAuth']);
   Route::get('/user', fn(Request $request) => $request->user());
 });
+
+// Google Auth Routes
+
+Route::get('/google', [GoogleAuthController::class, 'redirectToGoogle']);
+Route::get('/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
+
 
 
 

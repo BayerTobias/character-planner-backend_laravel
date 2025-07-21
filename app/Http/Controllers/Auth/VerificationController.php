@@ -16,11 +16,12 @@ class VerificationController extends Controller
             return response()->json(['message' => 'Invalid verification link'], 403);
         }
 
-        if (!$user->hasVerifiedEmail()) {
+        if ($user->hasVerifiedEmail()) {
+            return response()->json(['message' => 'Email already verified']);
+        } else {
             $user->markEmailAsVerified();
+            return response()->json(['message' => 'Email successfully verified']);
         }
-
-        return response()->json(['message' => 'Email successfully verified']);
     }
 
     public function resend(Request $request)

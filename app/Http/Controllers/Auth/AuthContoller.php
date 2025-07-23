@@ -51,6 +51,7 @@ class AuthContoller extends Controller
             return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
+        $user->tokens()->where('updated_at', '<', now()->subDays(7))->delete();
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response([

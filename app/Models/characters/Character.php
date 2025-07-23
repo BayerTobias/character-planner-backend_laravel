@@ -9,6 +9,10 @@ use App\Models\skills\BasicSkill;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property int $id
+ * ...
+ */
 class Character extends Model
 {
     protected $fillable = [

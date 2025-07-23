@@ -20,9 +20,9 @@ class CharacterService
     $character->fill($validated)->save();
 
     $this->updateOrCreateMoney($character, $validated['money']);
-    $this->syncBasicSkills($character, $validated['skilled_skills']);
-    $this->syncBasicWeapons($character, $validated['base_weapons']);
-    $this->updateOrCreateCustomWeapons($character, $validated['custom_weapons']);
+    $this->syncBasicSkills($character, $validated['skilled_skills'] ?? []);
+    $this->syncBasicWeapons($character, $validated['base_weapons'] ?? []);
+    $this->updateOrCreateCustomWeapons($character, $validated['custom_weapons'] ?? []);
 
     return $character;
   }
@@ -51,7 +51,7 @@ class CharacterService
   {
     $syncData = collect($skills)
       ->mapWithKeys(fn($skill) => [
-        $skill['id'] => ['nodes_skilled' => $skill['nodes_skilled']]
+        $skill['skill_id'] => ['nodes_skilled' => $skill['nodes_skilled']]
       ])->all();
 
     $character->basicSkills()->sync($syncData);

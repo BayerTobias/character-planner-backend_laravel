@@ -20,8 +20,6 @@ class CharacterController extends Controller
     }
     public function show($id)
     {
-        $user = Auth::user();
-
         $character = Character::with([
             'characterRace',
             'characterClass.basicSkills',
@@ -32,7 +30,7 @@ class CharacterController extends Controller
             'basicSkills'
         ])
             ->where('id', $id)
-            ->where('user_id', $user->id)
+            ->where('user_id', Auth::id())
             ->first();
 
         if (!$character) {
@@ -44,10 +42,8 @@ class CharacterController extends Controller
 
     public function getCharactersList()
     {
-        $user = Auth::user();
-
         $characters = Character::with(['characterRace', 'characterClass'])
-            ->where('user_id', $user->id)
+            ->where('user_id', Auth::id())
             ->get();
 
         return CharacterListResource::collection($characters);
@@ -55,32 +51,9 @@ class CharacterController extends Controller
 
     public function createOrUpdateCharacter(CharacterCreateUpdateRequest $request)
     {
-
         $validatet = $request->validated();
 
         $character = $this->characterService->createOrUpdateCharacter($validatet);
-
-        // $validatet['user_id'] = Auth::id();
-
-
-        // $character = Character::create($validatet);
-
-
-        // $character->money()->create([
-        //     'gf' => $validatet['money']['gf'],
-        //     'tt' => $validatet['money']['tt'],
-        //     'kl' => $validatet['money']['kl'],
-        //     'mu' => $validatet['money']['mu'],
-        // ]);
-
-
-
-        // $syncData = collect($validatet['skilled_skills'])
-        //     ->mapWithKeys(fn($skill) => [
-        //         $skill['id'] => ['nodes_skilled' => $skill['nodes_skilled']]
-        //     ])->all();
-
-        // $character->basicSkills()->sync($syncData);
 
         return response()->json([
             'message' => 'Character object',

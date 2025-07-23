@@ -27,8 +27,6 @@ class GoogleAuthController extends Controller
             $googleProvider = Socialite::driver('google');
             $googleUser = $googleProvider->stateless()->user();
 
-
-
             $user = User::firstOrCreate(
                 ['email' => $googleUser->getEmail()],
                 [
@@ -41,9 +39,10 @@ class GoogleAuthController extends Controller
             $user->email_verified_at = now();
             $user->save();
 
+            $user->tokens()->where('updated_at', '<', now()->subDays(7))->delete();
             $token = $user->createToken('auth_token')->plainTextToken;
 
-            return redirect(config('app.frontend_url') . '/login?token=' . $token);
+            return redirect(config('app.frontend_url') . '/token-accept?token=' . urlencode($token));
 
         } catch (Exception $error) {
             return redirect(config('app.frontend_url') . '/login?error=' . $error);

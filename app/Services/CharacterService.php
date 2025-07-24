@@ -6,6 +6,7 @@ use App\Http\Requests\CharacterCreateUpdateRequest;
 use App\Models\characters\Character;
 use App\Models\items\CustomWeapon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CharacterService
 {

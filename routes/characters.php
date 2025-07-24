@@ -15,8 +15,6 @@ Route::middleware('auth:sanctum')->group(function () {
   Route::get('/classes', [CharacterClassController::class, 'getClassList']);
   Route::get('/classes/{id}', [CharacterClassController::class, 'getClassWithSkills']);
 
-
   // Races
   Route::get('/races', [CharacterRaceController::class, 'getRaceList']);
-
 });

@@ -55,9 +55,18 @@ class CharacterController extends Controller
 
         $character = $this->characterService->createOrUpdateCharacter($validatet);
 
-        return response()->json([
-            'message' => 'Character object',
-            'character' => $character,
-        ]);
+        $character->load(
+            [
+                'characterRace',
+                'characterClass.basicSkills',
+                'baseArmor',
+                'baseWeapons',
+                'customWeapons',
+                'money',
+                'basicSkills'
+            ]
+        );
+
+        return new CharacterResource($character);
     }
 }

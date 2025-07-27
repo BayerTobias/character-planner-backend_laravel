@@ -46,6 +46,7 @@ class CharacterCreateUpdateRequest extends FormRequest
             'charisma_bonus' => 'required|integer|',
 
             'base_armor_id' => 'nullable|integer|exists:base_armors,id',
+
             'current_lvl' => 'required|integer|min:1',
             'attribute_points' => 'required|integer|min:0',
 

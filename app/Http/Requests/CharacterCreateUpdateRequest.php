@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class CharacterCreateUpdateRequest extends FormRequest
 {
@@ -46,6 +47,12 @@ class CharacterCreateUpdateRequest extends FormRequest
             'charisma_bonus' => 'required|integer|',
 
             'base_armor_id' => 'nullable|integer|exists:base_armors,id',
+            'shield_id' => [
+                'nullable',
+                'integer',
+                Rule::exists('base_armors', 'id')
+                    ->where(fn($query) => $query->where('type', 'shield'))
+            ],
 
             'current_lvl' => 'required|integer|min:1',
             'attribute_points' => 'required|integer|min:0',

@@ -34,6 +34,7 @@ class Character extends Model
         'charisma_value',
         'charisma_bonus',
         'base_armor_id',
+        'shield_id',
         'user_id',
         'current_lvl',
         'attribute_points'
@@ -57,6 +58,11 @@ class Character extends Model
     public function baseArmor()
     {
         return $this->belongsTo(BaseArmor::class);
+    }
+
+    public function shield()
+    {
+        return $this->belongsTo(BaseArmor::class, 'shield_id');
     }
 
     public function baseWeapons()

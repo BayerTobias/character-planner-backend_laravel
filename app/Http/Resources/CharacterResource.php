@@ -32,6 +32,7 @@ class CharacterResource extends JsonResource
             "character_class" => new CharacterClassResource($this->whenLoaded('characterClass')),
 
             "base_armor" => new BaseArmorResource($this->whenLoaded('baseArmor')),
+            "shield" => new BaseArmorResource($this->whenLoaded('shield')),
 
             "base_weapons" => BaseWeaponResource::collection($this->whenLoaded("baseWeapons")),
 

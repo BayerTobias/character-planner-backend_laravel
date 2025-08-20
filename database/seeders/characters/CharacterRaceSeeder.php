@@ -13,24 +13,61 @@ class CharacterRaceSeeder extends Seeder
      */
     public function run(): void
     {
-        CharacterRace::updateOrCreate([
-            'name' => 'Mensch'
-        ]);
+        CharacterRace::updateOrCreate(
+            ['name' => 'Mensch'],
+            [
+                'strength_modifier' => 0,
+                'agility_modifier' => 0,
+                'constitution_modifier' => 0,
+                'intelligence_modifier' => 0,
+                'charisma_modifier' => 0
+            ]
+        );
 
-        CharacterRace::updateOrCreate([
-            'name' => 'Elf'
-        ]);
+        CharacterRace::updateOrCreate(
+            ['name' => 'Elf'],
+            [
+                'strength_modifier' => -1,
+                'agility_modifier' => 1,
+                'constitution_modifier' => -1,
+                'intelligence_modifier' => 0,
+                'charisma_modifier' => 1
+            ]
+        );
 
-        CharacterRace::updateOrCreate([
-            'name' => 'Zwerg'
-        ]);
+        CharacterRace::updateOrCreate(
+            ['name' => 'Zwerg'],
+            [
+                'strength_modifier' => 0,
+                'agility_modifier' => -1,
+                'constitution_modifier' => 2,
+                'intelligence_modifier' => 0,
+                'charisma_modifier' => -1
+            ]
+        );
 
-        CharacterRace::updateOrCreate([
-            'name' => 'Halbling'
-        ]);
+        CharacterRace::updateOrCreate(
+            [
+                'name' => 'Halbling'
+            ],
+            [
+                'strength_modifier' => -2,
+                'agility_modifier' => 1,
+                'constitution_modifier' => 0,
+                'intelligence_modifier' => 0,
+                'charisma_modifier' => 1
+            ]
+        );
 
-        CharacterRace::updateOrCreate([
-            'name' => 'Gnom'
-        ]);
+        CharacterRace::updateOrCreate(
+            ['name' => 'Gnom',],
+            [
+                'strength_modifier' => 0,
+                'agility_modifier' => 1,
+                'constitution_modifier' => -2,
+                'intelligence_modifier' => 1,
+                'charisma_modifier' => 0
+            ]
+        );
     }
 }

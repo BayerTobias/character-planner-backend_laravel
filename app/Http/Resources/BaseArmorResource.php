@@ -21,6 +21,7 @@ class BaseArmorResource extends JsonResource
             "armor_bonus" => $this->armor_bonus,
             "maneuver_bonus" => $this->maneuver_bonus,
             "weight" => $this->weight,
+            "type" => $this->type,
         ];
     }
 }

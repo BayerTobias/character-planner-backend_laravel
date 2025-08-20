@@ -21,6 +21,7 @@ class CharacterListResource extends JsonResource
             'name' => $this->name,
             'character_race' => $this->characterRace->name,
             'character_class' => $this->characterClass->name,
+            'class_color' => $this->characterClass->color,
         ];
     }
 }

@@ -17,6 +17,11 @@ class CharacterRaceResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'strength_modifier' => $this->strength_modifier,
+            'agility_modifier' => $this->agility_modifier,
+            'constitution_modifier' => $this->constitution_modifier,
+            'intelligence_modifier' => $this->intelligence_modifier,
+            'charisma_modifier' => $this->charisma_modifier
         ];
     }
 }

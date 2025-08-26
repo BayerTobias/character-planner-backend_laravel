@@ -23,3 +23,5 @@ Homestead.json
 Homestead.yaml
 Thumbs.db
 up.bat
+docker-compose.yml
+dockerfile

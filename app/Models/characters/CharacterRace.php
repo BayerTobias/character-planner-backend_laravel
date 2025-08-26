@@ -6,7 +6,14 @@ use Illuminate\Database\Eloquent\Model;
 
 class CharacterRace extends Model
 {
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name',
+        'strength_modifier',
+        'agility_modifier',
+        'constitution_modifier',
+        'intelligence_modifier',
+        'charisma_modifier'
+    ];
 
     public function characters()
     {

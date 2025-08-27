@@ -66,7 +66,7 @@ class CharacterRaceSeeder extends Seeder
                 'agility_modifier' => 1,
                 'constitution_modifier' => -2,
                 'intelligence_modifier' => 1,
-                'charisma_modifier' => 0
+                'charisma_modifier' => 0,
             ]
         );
     }

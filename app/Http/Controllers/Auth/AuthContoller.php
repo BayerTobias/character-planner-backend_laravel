@@ -12,6 +12,18 @@ use function Pest\Laravel\json;
 
 class AuthContoller extends Controller
 {
+    /**
+     * Handle a new user registration request.
+     *
+     * This method validates the incoming request, creates a new user record,
+     * hashes the password, sends the email verification notification,
+     * and returns a JSON response with the created user.
+     *
+     * @param  \Illuminate\Http\Request  $request  The incoming registration request containing name, email, and password.
+     * @return \Illuminate\Http\JsonResponse       A JSON response with success message and created user data.
+     *
+     * @throws \Illuminate\Validation\ValidationException  If the validation fails.
+     */
     public function register(Request $request)
     {
         // Validation

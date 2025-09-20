@@ -47,6 +47,18 @@ class AuthContoller extends Controller
         ], 201);
     }
 
+    /**
+     * Handle a user login request.
+     *
+     * This method validates the incoming request for email and password, checks if the user exists
+     * and has a verified email, verifies the password, deletes old tokens older than 7 days,
+     * creates a new authentication token, and returns a JSON response with the token.
+     *
+     * @param  \Illuminate\Http\Request  $request   The incoming login request containing email and password.
+     * @return \Illuminate\Http\JsonResponse        A JSON response with a success message, access token, and token type.
+     *
+     * @throws \Illuminate\Validation\ValidationException  If the validation of email or password fails.
+     */
     public function login(Request $request)
     {
         $credentials = $request->validate([
@@ -66,7 +78,7 @@ class AuthContoller extends Controller
         $user->tokens()->where('updated_at', '<', now()->subDays(7))->delete();
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response([
+        return response()->json([
             'message' => 'Login successful',
             'access_token' => $token,
             'token_type' => 'Bearer'

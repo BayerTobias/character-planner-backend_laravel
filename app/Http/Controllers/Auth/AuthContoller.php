@@ -85,6 +85,15 @@ class AuthContoller extends Controller
         ]);
     }
 
+    /**
+     * Check if the current user is authenticated.
+     *
+     * This endpoint returns a JSON response indicating that the user
+     * is authenticated. It should be protected by auth middleware
+     * to ensure only authenticated users can access it.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function checkAuth()
     {
         return response()->json(

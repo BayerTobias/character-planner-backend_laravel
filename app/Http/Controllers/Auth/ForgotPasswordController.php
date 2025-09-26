@@ -8,6 +8,18 @@ use Illuminate\Support\Facades\Password;
 
 class ForgotPasswordController extends Controller
 {
+    /**
+     * Send a password reset link to the given email address.
+     *
+     * This endpoint validates the provided email and attempts to send
+     * a password reset link using Laravel's password broker. If successful,
+     * a JSON response with a success message is returned. If the email
+     * does not exist or the link cannot be sent, a JSON error response
+     * is returned.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function sendPasswordResetEmail(Request $request)
     {
         $request->validate([

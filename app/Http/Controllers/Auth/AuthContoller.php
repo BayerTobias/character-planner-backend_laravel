@@ -103,6 +103,16 @@ class AuthContoller extends Controller
         );
     }
 
+    /**
+     * Log out the currently authenticated user.
+     *
+     * This endpoint deletes the user's current personal access token,
+     * effectively logging them out. It is protected by auth middleware
+     * to ensure only authenticated users can access it.
+     * 
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function logout(Request $request)
     {
         /** @var PersonalAccessToken|null $token */

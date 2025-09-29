@@ -1,12 +1,15 @@
 <?php
 
 use App\Models\User;
+use App\Notifications\ResetPasswordNotification;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
+use Illuminate\Support\Facades\Notification;
 
 uses(RefreshDatabase::class);
 
 test('sends password reset email if user exists', function () {
+    Notification::fake();
+
     $user = User::factory()->create();
 
     $response = $this->postJson('/api/forgot-password', [
@@ -17,6 +20,14 @@ test('sends password reset email if user exists', function () {
         ->assertJson([
             'message' => 'Password reset link sent.'
         ]);
+
+    Notification::assertSentTo(
+        [$user],
+        ResetPasswordNotification::class,
+        function ($notification, $channels) {
+            return !empty($notification->token);
+        }
+    );
 });
 
 test('returns error if email is invalid', function () {

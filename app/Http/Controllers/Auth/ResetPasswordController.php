@@ -9,6 +9,17 @@ use Illuminate\Support\Facades\Password;
 
 class ResetPasswordController extends Controller
 {
+
+    /**
+     * Handle a password reset request.
+     *
+     * This endpoint accepts a password reset token, the user's email, and a new password.
+     * It validates the input, attempts to reset the password using Laravel's Password broker,
+     * and returns a JSON response indicating success or failure.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function resetPassword(Request $request)
     {
 

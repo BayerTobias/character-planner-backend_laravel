@@ -46,7 +46,7 @@ class VerificationController extends Controller
      * and resends the email verification notification if the user exists and
      * has not already verified their email address.
      *
-     * @param  \Illuminate\Http\Request  $request  The incoming request containing the user's email.
+     * @param  \Illuminate\Http\Request $request The incoming request containing the user's email.
      *
      * @return \Illuminate\Http\JsonResponse    A JSON response indicating the outcome:
      *                                          - Email sent

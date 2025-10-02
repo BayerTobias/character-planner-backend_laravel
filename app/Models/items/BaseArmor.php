@@ -3,10 +3,12 @@
 namespace App\Models\Items;
 
 use App\Models\characters\Character;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseArmor extends Model
 {
+    use HasFactory;
     protected $fillable = ['name', 'min_str', 'armor_bonus', 'maneuver_bonus', 'weight'];
 
     public function characters()

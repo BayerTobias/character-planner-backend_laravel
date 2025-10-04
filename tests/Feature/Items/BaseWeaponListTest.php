@@ -15,8 +15,6 @@ test('returns a list of base weapons', function () {
 
     $respone = $this->getJson('/api/base-weapons');
 
-    dump($respone->json());
-
     $respone->assertStatus(200)
         ->assertJsonCount(5);
 });

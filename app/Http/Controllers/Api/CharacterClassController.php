@@ -20,7 +20,7 @@ class CharacterClassController extends Controller
         $class = CharacterClass::with('basicSkills')->find($id);
 
         if (!$class) {
-            return response()->json(['message' => 'Class not found', 404]);
+            return response()->json(['message' => 'Class not found'], 404);
         }
 
         return response()->json($class);

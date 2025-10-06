@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class CharacterClassFactory extends Factory
 {
     protected $model = CharacterClass::class;
+
     /**
      * Define the model's default state.
      *

@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class CharacterRaceController extends Controller
 {
+    /**
+     * Get a list of all character races.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *         A JSON response containing the list of character races.
+     */
     public function getRaceList()
     {
         $races = CharacterRace::all();

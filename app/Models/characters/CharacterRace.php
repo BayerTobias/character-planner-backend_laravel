@@ -2,10 +2,13 @@
 
 namespace App\Models\characters;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class CharacterRace extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'name',
         'strength_modifier',

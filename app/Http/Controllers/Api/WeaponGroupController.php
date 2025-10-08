@@ -9,6 +9,12 @@ use Illuminate\Http\Request;
 
 class WeaponGroupController extends Controller
 {
+    /**
+     * Get a list of all weapon groups.
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     *         A JSON response containing the list of weapon groups.
+     */
     public function getWeaponGroupList()
     {
         $weaponGroups = WeaponGroup::all();

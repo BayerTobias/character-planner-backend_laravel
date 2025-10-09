@@ -3,6 +3,7 @@
 namespace Database\Factories\characters;
 
 use App\Models\characters\CharacterClass;
+use App\Models\skills\BasicSkill;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -26,5 +27,14 @@ class CharacterClassFactory extends Factory
             'main_stat' => $this->faker->randomElement(['strength', 'agility', 'constitution', 'intelligence', 'charisma',]),
             'color' => $this->faker->word(),
         ];
+    }
+
+    public function withSkills(int $count = 5)
+    {
+        return $this->afterCreating(function (CharacterClass $characterClass) use ($count) {
+            BasicSkill::factory()
+                ->count($count)
+                ->create(['character_class_id' => $characterClass->id]);
+        });
     }
 }

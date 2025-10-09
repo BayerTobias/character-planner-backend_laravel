@@ -21,6 +21,11 @@ class CharacterRaceFactory extends Factory
     {
         return [
             'name' => $this->faker->word(),
+            "strength_modifier" => $this->faker->numberBetween(-2, +2),
+            "agility_modifier" => $this->faker->numberBetween(-2, +2),
+            "constitution_modifier" => $this->faker->numberBetween(-2, +2),
+            "intelligence_modifier" => $this->faker->numberBetween(-2, +2),
+            "charisma_modifier" => $this->faker->numberBetween(-2, +2),
         ];
     }
 }

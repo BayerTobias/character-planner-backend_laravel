@@ -7,6 +7,7 @@ use App\Models\Items\BaseWeapon;
 use App\Models\items\CustomWeapon;
 use App\Models\skills\BasicSkill;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -15,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Character extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'name',
         'character_race_id',

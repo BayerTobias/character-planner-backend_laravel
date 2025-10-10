@@ -2,6 +2,8 @@
 
 namespace Database\Factories\characters;
 
+use App\Models\characters\Character;
+use App\Models\characters\Money;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -38,5 +40,21 @@ class CharacterFactory extends Factory
             // $table->foreignIdFor(BaseArmor::class)->nullable()->constrained()->nullOnDelete();
             // $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
         ];
+    }
+
+    public function withMana(): static
+    {
+        return $this->state(fn() => [
+            'max_mana' => $this->faker->numberBetween(1, 15),
+            'current_mana' => fn(array $attributes) => $attributes['max_mana'],
+        ]);
+    }
+
+    public function withMoney(): Factory
+    {
+        return $this->afterCreating(function (Character $character) {
+            $money = Money::factory()->create(['character_id' => $character->id]);
+            $character->update(['money_id' => $money->id]);
+        });
     }
 }

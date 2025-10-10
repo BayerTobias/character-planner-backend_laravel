@@ -23,4 +23,20 @@ class BaseArmorFactory extends Factory
             'type' => $this->faker->randomElement(['armor', 'shield']),
         ];
     }
+
+
+    public function armor(): static
+    {
+        return $this->state(fn() => [
+            'type' => 'armor',
+        ]);
+    }
+
+
+    public function shield(): static
+    {
+        return $this->state(fn() => [
+            'type' => 'shield',
+        ]);
+    }
 }

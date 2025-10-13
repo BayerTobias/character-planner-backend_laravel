@@ -101,8 +101,6 @@ test('character includes related models', function () {
 
     $response = getJson("/api/characters/{$character->id}");
 
-    dump($response->json());
-
     $response->assertStatus(200)
         ->assertJsonStructure([
             'id',

@@ -36,9 +36,6 @@ class CharacterFactory extends Factory
             'intelligence_bonus' => $this->faker->numberBetween(0, 3),
             'charisma_value' => $this->faker->numberBetween(1, 16),
             'charisma_bonus' => $this->faker->numberBetween(0, 3),
-
-            // $table->foreignIdFor(BaseArmor::class)->nullable()->constrained()->nullOnDelete();
-            // $table->foreignIdFor(User::class)->constrained()->onDelete('cascade');
         ];
     }
 

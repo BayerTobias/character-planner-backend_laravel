@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Actions\Auth\RegisterUserAction;
+use App\Data\Auth\RegisterUserData;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RegisterUserRequest;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
@@ -13,38 +17,31 @@ use function Pest\Laravel\json;
 class AuthContoller extends Controller
 {
     /**
-     * Handle a new user registration request.
+     * Register a new user.
      *
-     * This method validates the incoming request, creates a new user record,
-     * hashes the password, sends the email verification notification,
-     * and returns a JSON response with the created user.
+     * This endpoint handles user registration by validating the incoming request,
+     * delegating the registration process to the RegisterUserAction,
+     * and returning the newly created user as an API resource.
      *
-     * @param  \Illuminate\Http\Request  $request  The incoming registration request containing name, email, and password.
-     * @return \Illuminate\Http\JsonResponse       A JSON response with success message and created user data.
+     * The user is created in an unverified state and receives
+     * an email verification notification.
      *
-     * @throws \Illuminate\Validation\ValidationException  If the validation fails.
+     * @param  \App\Http\Requests\Auth\RegisterUserRequest  $request
+     *         Validated registration data (name, email, password).
+     *
+     * @param  \App\Actions\Auth\RegisterUserAction  $action
+     *         Handles the user registration use-case.
+     *
+     * @return \Illuminate\Http\JsonResponse
+     *         JSON response containing the registered user resource.
      */
-    public function register(Request $request)
+    public function register(RegisterUserRequest $request, RegisterUserAction $action)
     {
-        // Validation
-        $validated = $request->validate([
-            'name' => 'required|string|max:50',
-            'email' => 'required|email|unique:users,email',
-            'password' => 'required|string|min:6'
-        ]);
+        $user = $action->execute(RegisterUserData::fromRequest($request));
 
-        $user = User::create([
-            'name' => $validated['name'],
-            'email' => $validated['email'],
-            'password' => Hash::make($validated['password'])
-        ]);
-
-        $user->sendEmailVerificationNotification();
-
-        return response()->json([
-            'message' => 'User created successfully',
-            'user' => $user,
-        ], 201);
+        return (new UserResource($user))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**

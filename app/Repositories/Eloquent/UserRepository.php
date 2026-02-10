@@ -19,4 +19,11 @@ class UserRepository implements UserRepositoryInterface
 
     return $user;
   }
+
+  public function findVerifiedByEmail(string $email): ?User
+  {
+    return User::where('email', $email)
+      ->whereNotNull('email_verified_at')
+      ->first();
+  }
 }

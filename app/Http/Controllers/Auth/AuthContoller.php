@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Actions\Auth\LoginUserAction;
 use App\Actions\Auth\RegisterUserAction;
+use App\Data\Auth\LoginUserData;
 use App\Data\Auth\RegisterUserData;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginUserRequest;
 use App\Http\Requests\Auth\RegisterUserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
@@ -44,36 +47,10 @@ class AuthContoller extends Controller
             ->setStatusCode(201);
     }
 
-    /**
-     * Handle a user login request.
-     *
-     * This method validates the incoming request for email and password, checks if the user exists
-     * and has a verified email, verifies the password, deletes old tokens older than 7 days,
-     * creates a new authentication token, and returns a JSON response with the token.
-     *
-     * @param  \Illuminate\Http\Request  $request   The incoming login request containing email and password.
-     * @return \Illuminate\Http\JsonResponse        A JSON response with a success message, access token, and token type.
-     *
-     * @throws \Illuminate\Validation\ValidationException  If the validation of email or password fails.
-     */
-    public function login(Request $request)
+
+    public function login(LoginUserRequest $request, LoginUserAction $action)
     {
-        $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|string'
-        ]);
-
-
-        $user = User::where('email', $credentials['email'])
-            ->whereNotNull('email_verified_at')
-            ->first();
-
-        if (!$user || !Hash::check($credentials['password'], $user->password)) {
-            return response()->json(['message' => 'Invalid credentials'], 401);
-        }
-
-        $user->tokens()->where('updated_at', '<', now()->subDays(7))->delete();
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $action->execute(LoginUserData::fromRequest($request));
 
         return response()->json([
             'message' => 'Login successful',

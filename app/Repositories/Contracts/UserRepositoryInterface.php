@@ -8,4 +8,6 @@ use App\Models\User;
 interface UserRepositoryInterface
 {
   public function createFromRegistration(RegisterUserData $data): User;
+
+  public function findVerifiedByEmail(string $email): ?User;
 }

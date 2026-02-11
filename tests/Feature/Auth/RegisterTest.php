@@ -18,7 +18,8 @@ test('user can register successfully', function () {
 
     $response->assertStatus(201)
         ->assertJson([
-            'message' => 'User created successfully',
+            'name' => 'Tobias',
+            'email' => 'tobias@example.com',
         ]);
 
     expect(User::whereEmail('tobias@example.com')->exists())->toBeTrue();

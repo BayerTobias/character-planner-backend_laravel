@@ -3,6 +3,7 @@
 namespace App\Actions\Auth;
 
 use App\Data\Auth\LoginUserData;
+use App\Exceptions\InvalidCredentialsException;
 use App\Repositories\Contracts\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
@@ -20,9 +21,7 @@ class LoginUserAction
     $user = $this->users->findVerifiedByEmail($data->email);
 
     if (!$user || !Hash::check($data->password, $user->password)) {
-      throw ValidationException::withMessages([
-        'email' => ['The provided credentials are incorrect.'],
-      ]);
+      throw new InvalidCredentialsException();
     }
 
     $user->tokens()->where('updated_at', '<', now()

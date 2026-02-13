@@ -18,7 +18,7 @@ test('sends password reset email if user exists', function () {
 
     $response->assertStatus(200)
         ->assertJson([
-            'message' => 'Password reset link sent.'
+            'message' => 'If your email exists, you will receive a reset link.'
         ]);
 
     Notification::assertSentTo(
@@ -39,13 +39,15 @@ test('returns error if email is invalid', function () {
     $response->assertJsonValidationErrors('email');
 });
 
-test('returns error if user does not exist', function () {
+test('returns success even if user does not exist', function () {
     $response = $this->postJson('/api/forgot-password', [
         'email' => 'nonexistent@example.com',
     ]);
 
-    $response->assertStatus(400)
-        ->assertJsonStructure(['message']);
+    $response->assertStatus(200)
+        ->assertJson([
+            'message' => 'If your email exists, you will receive a reset link.'
+        ]);
 });
 
 

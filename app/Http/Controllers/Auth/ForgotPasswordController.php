@@ -2,38 +2,18 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Actions\Auth\ForgotPasswordAction;
+use App\Data\Auth\ForgotPasswordData;
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Password;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
 
 class ForgotPasswordController extends Controller
 {
-    /**
-     * Send a password reset link to the given email address.
-     *
-     * This endpoint validates the provided email and attempts to send
-     * a password reset link using Laravel's password broker. If successful,
-     * a JSON response with a success message is returned. If the email
-     * does not exist or the link cannot be sent, a JSON error response
-     * is returned.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function sendPasswordResetEmail(Request $request)
+
+    public function sendPasswordResetEmail(ForgotPasswordRequest $request, ForgotPasswordAction $action)
     {
-        $request->validate([
-            'email' => 'required|email'
-        ]);
+        $action->execute(ForgotPasswordData::fromRequest($request));
 
-        $status = Password::sendResetLink($request->only('email'));
-
-        if ($status === Password::RESET_LINK_SENT) {
-            return response()->json([
-                'message' => 'Password reset link sent.'
-            ], 200);
-        }
-
-        return response()->json(['message' => __($status)], 400);
+        return response()->json(['message' => 'If your email exists, you will receive a reset link.'], 200);
     }
 }

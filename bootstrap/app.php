@@ -22,8 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->render(
             fn(InvalidCredentialsException $e) =>
             response()->json([
-                'message' => 'Invalid credentials',
-            ], Response::HTTP_UNAUTHORIZED)
+                'message' => $e->getMessage(),
+            ], $e->getCode())
         );
 
     })->create();

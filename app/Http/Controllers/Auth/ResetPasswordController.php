@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Actions\Auth\ResetPasswordAction;
+use App\Data\Auth\ResetPasswordData;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
@@ -11,31 +14,21 @@ class ResetPasswordController extends Controller
 {
 
     /**
-     * Handle a password reset request.
+     * Handle an incoming password reset request.
      *
-     * This endpoint accepts a password reset token, the user's email, and a new password.
-     * It validates the input, attempts to reset the password using Laravel's Password broker,
-     * and returns a JSON response indicating success or failure.
+     * This endpoint accepts a valid password reset token, the user's email,
+     * and a new password. The request data is validated via ResetPasswordRequest.
+     * If the provided token is valid and the reset succeeds, a success response
+     * is returned. Otherwise, an error message is returned.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \App\Http\Requests\Auth\ResetPasswordRequest  $request
+     * @param  \App\Actions\Auth\ResetPasswordAction  $action
      * @return \Illuminate\Http\JsonResponse
      */
-    public function resetPassword(Request $request)
+    public function resetPassword(ResetPasswordRequest $request, ResetPasswordAction $action)
     {
 
-        $request->validate([
-            'token' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:6|confirmed'
-        ]);
-
-        $status = Password::reset(
-            $request->only('email', 'password', 'password_confirmation', 'token'),
-            function ($user, $password) {
-                $user->password = Hash::make($password);
-                $user->save();
-            }
-        );
+        $status = $action->execute(ResetPasswordData::fromRequest($request));
 
         if ($status === Password::PASSWORD_RESET) {
             return response()->json(['message' => 'Password successfully reset.'], 200);

@@ -9,5 +9,7 @@ interface UserRepositoryInterface
 {
   public function createFromRegistration(RegisterUserData $data): User;
 
+  public function findByEmail(string $email): ?User;
+
   public function findVerifiedByEmail(string $email): ?User;
 }

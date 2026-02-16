@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Actions\Auth\ResendVerificationAction;
+use App\Data\Auth\ResendVerificationData;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ResendVerificationRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -39,40 +42,29 @@ class VerificationController extends Controller
         }
     }
 
+
     /**
      * Resend the email verification notification.
      *
-     * This method validates the provided email, looks up the corresponding user,
-     * and resends the email verification notification if the user exists and
-     * has not already verified their email address.
+     * This endpoint accepts an email via the ResendVerificationRequest and
+     * triggers the ResendVerificationAction. If the email belongs to a user
+     * who exists and is not yet verified, a verification email will be sent.
+     * 
+     * For security reasons, the response does not indicate whether the user
+     * exists or is already verified. The same success message is returned
+     * in all cases.
      *
-     * @param  \Illuminate\Http\Request $request The incoming request containing the user's email.
-     *
-     * @return \Illuminate\Http\JsonResponse    A JSON response indicating the outcome:
-     *                                          - Email sent
-     *                                          - Already verified
-     *                                          - User not found
-     *
-     * @throws \Illuminate\Validation\ValidationException If the email validation fails.
+     * @param \App\Http\Requests\Auth\ResendVerificationRequest $request The validated request containing the email.
+     * @param \App\Actions\Auth\ResendVerificationAction $action The action handling the resend logic.
+     * 
+     * @return \Illuminate\Http\JsonResponse JSON response with a generic success message.
      */
-    public function resend(Request $request)
+    public function resend(ResendVerificationRequest $request, ResendVerificationAction $action)
     {
-        $validated = $request->validate([
-            'email' => 'required|email'
+        $action->execute(ResendVerificationData::fromRequest($request));
+
+        return response()->json([
+            'message' => 'If your email is registered and not verified, you will receive a verification email shortly.'
         ]);
-
-        $user = User::where('email', $validated['email'])->first();
-
-        if (!$user) {
-            return response()->json(['message' => 'User not found'], 404);
-        }
-
-        if ($user->hasVerifiedEmail()) {
-            return response()->json(['message' => 'Email already verified'], 200);
-        }
-
-        $user->sendEmailVerificationNotification();
-
-        return response()->json(['message' => 'Verification email sent']);
     }
 }

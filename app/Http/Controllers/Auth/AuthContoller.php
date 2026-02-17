@@ -12,11 +12,6 @@ use App\Http\Requests\Auth\LoginUserRequest;
 use App\Http\Requests\Auth\RegisterUserRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
-use App\Models\User;
-use Illuminate\Support\Facades\Hash;
-use Laravel\Sanctum\PersonalAccessToken;
-
-use function Pest\Laravel\json;
 
 class AuthContoller extends Controller
 {
@@ -48,7 +43,17 @@ class AuthContoller extends Controller
             ->setStatusCode(201);
     }
 
-
+    /**
+     * Handle user login request.
+     *
+     * Validates the incoming credentials, delegates authentication to the
+     * LoginUserAction, and returns a JSON response containing a Bearer access token
+     * if authentication is successful.
+     *
+     * @param  \App\Http\Requests\Auth\LoginUserRequest  $request  Validated login request
+     * @param  \App\Actions\Auth\LoginUserAction  $action  Authentication use-case handler
+     * @return \Illuminate\Http\JsonResponse  JSON response with access token
+     */
     public function login(LoginUserRequest $request, LoginUserAction $action)
     {
         $token = $action->execute(LoginUserData::fromRequest($request));

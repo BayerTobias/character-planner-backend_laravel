@@ -1,6 +1,7 @@
 <?php
 
 use App\Exceptions\InvalidCredentialsException;
+use App\Exceptions\InvalidVerificationLinkException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -21,6 +22,13 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $exceptions->render(
             fn(InvalidCredentialsException $e) =>
+            response()->json([
+                'message' => $e->getMessage(),
+            ], $e->getCode())
+        );
+
+        $exceptions->render(
+            fn(InvalidVerificationLinkException $e) =>
             response()->json([
                 'message' => $e->getMessage(),
             ], $e->getCode())

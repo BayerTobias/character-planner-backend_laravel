@@ -3,43 +3,38 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Actions\Auth\ResendVerificationAction;
+use App\Actions\Auth\VerifyEmailAction;
 use App\Data\Auth\ResendVerificationData;
+use App\Data\Auth\VerifyEmailData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\ResendVerificationRequest;
-use App\Models\User;
-use Illuminate\Http\Request;
+use App\Http\Requests\Auth\VerifyEmailRequest;
 
 class VerificationController extends Controller
 {
+
     /**
      * Verify a user's email address.
      *
-     * This method handles the verification of a user's email address by checking
-     * the provided ID and hash against the stored user data. If the hash matches
-     * and the email is not yet verified, the email will be marked as verified.
+     * This endpoint validates the signed verification link parameters (id and hash)
+     * and delegates the verification logic to the VerifyEmailAction. Depending on
+     * the verification state, it returns a success message or indicates that the
+     * email was already verified. If the verification link is invalid, an
+     * InvalidVerificationLinkException is thrown and rendered as a 403 response.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id The ID of the user to verify.
-     * @param  string $hash The verification hash to validate.
+     * @param  \App\Http\Requests\Auth\VerifyEmailRequest  $request  The validated request containing the user id and verification hash.
+     * @param  \App\Actions\Auth\VerifyEmailAction         $action   The action handling email verification logic.
+     * @return \Illuminate\Http\JsonResponse                         JSON response with verification result message.
      *
-     * @return \Illuminate\Http\JsonResponse A JSON response indicating whether the verification was successful, already completed, or invalid.
-     *
-     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException If the user with the given ID does not exist.
+     * @throws \App\Exceptions\InvalidVerificationLinkException      If the verification hash is invalid.
      */
-    public function verify(Request $request, $id, $hash)
+    public function verify(VerifyEmailRequest $request, VerifyEmailAction $action)
     {
-        $user = User::findOrFail($id);
+        $message = $action->execute(VerifyEmailData::fromRequest($request));
 
-        if (!hash_equals((string) $hash, sha1($user->getEmailForVerification()))) {
-            return response()->json(['message' => 'Invalid verification link'], 403);
-        }
-
-        if ($user->hasVerifiedEmail()) {
-            return response()->json(['message' => 'Email already verified']);
-        } else {
-            $user->markEmailAsVerified();
-            return response()->json(['message' => 'Email successfully verified']);
-        }
+        return response()->json([
+            'message' => $message
+        ]);
     }
 
 

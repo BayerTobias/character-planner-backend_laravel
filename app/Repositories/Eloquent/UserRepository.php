@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Eloquent;
 
+use App\Data\Auth\GoogleUserData;
 use App\Data\Auth\RegisterUserData;
 use App\Models\User;
 use App\Repositories\Contracts\UserRepositoryInterface;
@@ -17,6 +18,23 @@ class UserRepository implements UserRepositoryInterface
       'password' => Hash::make($data->password)
     ]);
 
+    return $user;
+  }
+
+  public function createFromGoogleLogin(GoogleUserData $data, string $password): User
+  {
+    $user = User::create([
+      'name' => $data->name,
+      'email' => $data->email,
+      'password' => Hash::make($password),
+    ]);
+
+    return $user;
+  }
+
+  public function update(User $user): User
+  {
+    $user->save();
     return $user;
   }
 

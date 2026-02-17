@@ -24,7 +24,6 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 });
 
 // Google Auth Routes
-
 Route::get('/google', [GoogleAuthController::class, 'redirectToGoogle']);
 Route::get('/google/callback', [GoogleAuthController::class, 'handleGoogleCallback']);
 

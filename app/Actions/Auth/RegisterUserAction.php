@@ -4,7 +4,7 @@ namespace App\Actions\Auth;
 
 use App\Data\Auth\RegisterUserData;
 use App\Models\User;
-use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Repositories\Contracts\Auth\UserRepositoryInterface;
 
 class RegisterUserAction
 {

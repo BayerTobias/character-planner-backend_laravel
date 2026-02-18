@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Contracts;
+namespace App\Repositories\Contracts\Auth;
 
 use App\Data\Auth\GoogleUserData;
 use App\Data\Auth\RegisterUserData;

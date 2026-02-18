@@ -4,13 +4,14 @@ namespace App\Actions\Auth;
 
 use App\Data\Auth\VerifyEmailData;
 use App\Exceptions\InvalidVerificationLinkException;
-use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Repositories\Contracts\Auth\UserRepositoryInterface;
 
 class VerifyEmailAction
 {
 
-  public function __construct(private UserRepositoryInterface $users)
-  {
+  public function __construct(
+    private UserRepositoryInterface $users
+  ) {
   }
 
   public function execute(VerifyEmailData $data): string

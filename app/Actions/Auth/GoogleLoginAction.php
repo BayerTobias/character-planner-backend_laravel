@@ -3,7 +3,7 @@
 namespace App\Actions\Auth;
 
 use App\Data\Auth\GoogleUserData;
-use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Repositories\Contracts\Auth\UserRepositoryInterface;
 use Illuminate\Support\Str;
 
 class GoogleLoginAction

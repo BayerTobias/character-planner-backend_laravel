@@ -3,8 +3,7 @@
 namespace App\Actions\Auth;
 
 use App\Data\Auth\ResendVerificationData;
-use App\Repositories\Contracts\UserRepositoryInterface;
-
+use App\Repositories\Contracts\Auth\UserRepositoryInterface;
 
 class ResendVerificationAction
 {

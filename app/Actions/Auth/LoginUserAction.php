@@ -4,9 +4,9 @@ namespace App\Actions\Auth;
 
 use App\Data\Auth\LoginUserData;
 use App\Exceptions\InvalidCredentialsException;
-use App\Repositories\Contracts\UserRepositoryInterface;
+use App\Repositories\Contracts\Auth\UserRepositoryInterface;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\ValidationException;
+
 
 
 class LoginUserAction

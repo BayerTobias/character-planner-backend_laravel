@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Repositories\Contracts\Auth\UserRepositoryInterface;
+use App\Repositories\Contracts\Items\BaseArmorRepositoryInterface;
+use App\Repositories\Eloquent\Auth\UserRepository;
+use App\Repositories\Eloquent\Items\BaseArmorRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\ServiceProvider;
 
@@ -13,8 +17,13 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         $this->app->bind(
-            \App\Repositories\Contracts\Auth\UserRepositoryInterface::class,
-            \App\Repositories\Eloquent\Auth\UserRepository::class
+            UserRepositoryInterface::class,
+            UserRepository::class
+        );
+
+        $this->app->bind(
+            BaseArmorRepositoryInterface::class,
+            BaseArmorRepository::class
         );
     }
 

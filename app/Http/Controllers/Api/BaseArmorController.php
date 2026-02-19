@@ -4,9 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseArmorResource;
-use App\Models\Items\BaseArmor;
 use App\Repositories\Contracts\Items\BaseArmorRepositoryInterface;
-use Illuminate\Http\Request;
+
 
 class BaseArmorController extends Controller
 {

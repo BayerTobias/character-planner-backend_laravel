@@ -2,29 +2,28 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Items\GetBaseArmorListAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BaseArmorResource;
-use App\Repositories\Contracts\Items\BaseArmorRepositoryInterface;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+
 
 
 class BaseArmorController extends Controller
 {
-    public function __construct(
-        private BaseArmorRepositoryInterface $baseArmorRepository
-    ) {
-    }
 
     /**
      * Get a list of all base armors.
      *
-     * Retrieves all base armors via repository and returns them
-     * as API resource collection.
-     *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * Delegates retrieval of base armors to the GetBaseArmorListAction
+     * and returns the result as a resource collection.
+     * 
+     * @return AnonymousResourceCollection
+     * 
      */
-    public function getBaseArmorList()
+    public function getBaseArmorList(GetBaseArmorListAction $action): AnonymousResourceCollection
     {
-        $armors = $this->baseArmorRepository->getAll();
+        $armors = $action->execute();
 
         return BaseArmorResource::collection($armors);
     }

@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Repositories\Contracts\Auth\UserRepositoryInterface;
+use App\Repositories\Contracts\Character\CharacterClassRepositoryInterface;
 use App\Repositories\Contracts\Items\BaseArmorRepositoryInterface;
 use App\Repositories\Contracts\Items\BaseWeaponRepositoryInterface;
 use App\Repositories\Eloquent\Auth\UserRepository;
+use App\Repositories\Eloquent\Character\CharacterClassRepository;
 use App\Repositories\Eloquent\Items\BaseArmorRepository;
 use App\Repositories\Eloquent\Items\BaseWeaponRepository;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -31,6 +33,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             BaseWeaponRepositoryInterface::class,
             BaseWeaponRepository::class
+        );
+
+        $this->app->bind(
+            CharacterClassRepositoryInterface::class,
+            CharacterClassRepository::class
         );
     }
 

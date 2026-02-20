@@ -2,44 +2,50 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Character\GetCharacterClassListAction;
+use App\Actions\Character\GetCharacterClassWithSkillsAction;
 use App\Http\Controllers\Controller;
 use App\Models\characters\CharacterClass;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class CharacterClassController extends Controller
 {
     /**
      * Get a list of all character classes.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      *         A JSON response containing the list of all character classes.
      */
-    public function getClassList()
+    public function getClassList(GetCharacterClassListAction $action): JsonResponse
     {
-        $classes = CharacterClass::all();
+        $classes = $action->execute();
 
         return response()->json($classes);
     }
 
+
     /**
      * Get a specific character class along with its basic skills.
      *
-     * This method retrieves a single character class by its ID,
-     * including all related basic skills. If the class does not exist,
-     * a 404 response is returned.
+     * Delegates the retrieval to GetCharacterClassWithSkillsAction. 
+     * Returns the class with its basic skills as JSON, or a 404 JSON response
+     * if the class does not exist.
      *
-     * @param  int  $id  The ID of the character class to retrieve.
-     * @return \Illuminate\Http\JsonResponse
-     *         A JSON response containing the class and its skills, or a 404 message.
+     * @param int $id The ID of the character class to retrieve.
+     * @param GetCharacterClassWithSkillsAction $action The action handling the use-case.
+     * @return JsonResponse JSON response containing the class or an error message.
      */
-    public function getClassWithSkills($id)
+    public function getClassWithSkills($id, GetCharacterClassWithSkillsAction $action): JsonResponse
     {
-        $class = CharacterClass::with('basicSkills')->find($id);
+        try {
+            $class = $action->execute($id);
 
-        if (!$class) {
+            return response()->json($class);
+
+        } catch (ModelNotFoundException $e) {
             return response()->json(['message' => 'Class not found'], 404);
         }
-
-        return response()->json($class);
     }
 }

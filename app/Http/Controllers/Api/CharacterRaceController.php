@@ -2,22 +2,28 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Character\GetCharacterRaceListAction;
 use App\Http\Controllers\Controller;
-use App\Models\characters\CharacterRace;
-use Illuminate\Http\Request;
+use App\Http\Resources\CharacterRaceResource;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+
 
 class CharacterRaceController extends Controller
 {
     /**
      * Get a list of all character races.
      *
-     * @return \Illuminate\Http\JsonResponse
-     *         A JSON response containing the list of character races.
+     * Delegates retrieval of character races to GetCharacterRaceListAction
+     * and returns the result as a resource collection.
+     *
+     * @param GetCharacterRaceListAction $action The action handling the use-case.
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     *         A resource collection containing all character races.
      */
-    public function getRaceList()
+    public function getRaceList(GetCharacterRaceListAction $action): AnonymousResourceCollection
     {
-        $races = CharacterRace::all();
+        $races = $action->execute();
 
-        return response()->json($races);
+        return CharacterRaceResource::collection($races);
     }
 }

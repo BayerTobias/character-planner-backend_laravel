@@ -2,22 +2,27 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Items\GetWeaponGroupListAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\WeaponGroupResource;
 use App\Models\Items\WeaponGroup;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class WeaponGroupController extends Controller
 {
     /**
-     * Get a list of all weapon groups.
+     * Retrieve a list of all weapon groups.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
-     *         A JSON response containing the list of weapon groups.
+     * Delegates the retrieval to GetWeaponGroupListAction and returns
+     * the weapon groups as a resource collection.
+     *
+     * @param GetWeaponGroupListAction $action The action handling the use-case.
+     * @return AnonymousResourceCollection A collection of weapon group resources.
      */
-    public function getWeaponGroupList()
+    public function getWeaponGroupList(GetWeaponGroupListAction $action): AnonymousResourceCollection
     {
-        $weaponGroups = WeaponGroup::all();
+        $weaponGroups = $action->execute();
 
         return WeaponGroupResource::collection($weaponGroups);
     }

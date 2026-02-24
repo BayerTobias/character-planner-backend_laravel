@@ -5,12 +5,14 @@ namespace App\Providers;
 use App\Repositories\Contracts\Auth\UserRepositoryInterface;
 use App\Repositories\Contracts\Character\CharacterClassRepositoryInterface;
 use App\Repositories\Contracts\Character\CharacterRaceRepositoryInterface;
+use App\Repositories\Contracts\Character\CharacterRepositoryInterface;
 use App\Repositories\Contracts\Items\BaseArmorRepositoryInterface;
 use App\Repositories\Contracts\Items\BaseWeaponRepositoryInterface;
 use App\Repositories\Contracts\Items\WeaponGroupRepositoryInterface;
 use App\Repositories\Eloquent\Auth\UserRepository;
 use App\Repositories\Eloquent\Character\CharacterClassRepository;
 use App\Repositories\Eloquent\Character\CharacterRaceRepository;
+use App\Repositories\Eloquent\Character\CharacterRepository;
 use App\Repositories\Eloquent\Items\BaseArmorRepository;
 use App\Repositories\Eloquent\Items\BaseWeaponRepository;
 use App\Repositories\Eloquent\Items\WeaponGroupRepository;
@@ -52,6 +54,11 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             WeaponGroupRepositoryInterface::class,
             WeaponGroupRepository::class
+        );
+
+        $this->app->bind(
+            CharacterRepositoryInterface::class,
+            CharacterRepository::class
         );
     }
 

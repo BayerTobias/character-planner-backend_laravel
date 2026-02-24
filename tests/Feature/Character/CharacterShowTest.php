@@ -61,10 +61,10 @@ test('returns 404 if character not found', function () {
     $user = User::factory()->create();
     actingAs($user, 'sanctum');
 
-    $response = $this->getJson("/api/characters/{1}");
+    $response = $this->getJson("/api/characters/999");
 
     $response->assertStatus(404)
-        ->assertJson(['message' => 'Character nor found or nor authorized']);
+        ->assertJson(['message' => 'Character not found or not authorized']);
 });
 
 test('unauthenticated user cannot access character', function () {

@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Api;
 use App\Actions\Items\GetWeaponGroupListAction;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\WeaponGroupResource;
-use App\Models\Items\WeaponGroup;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class WeaponGroupController extends Controller

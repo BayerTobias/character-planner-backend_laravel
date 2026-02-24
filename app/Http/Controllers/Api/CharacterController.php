@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Character\GetCharacterAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CharacterCreateUpdateRequest;
 use App\Http\Resources\CharacterListResource;
 use App\Http\Resources\CharacterResource;
 use App\Models\characters\Character;
 use App\Services\CharacterService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,30 +24,20 @@ class CharacterController extends Controller
     /**
      * Returns the full details of a specific character.
      *
-     * Loads the character along with all related data (race, class, equipment, etc.)
-     * and ensures that the authenticated user is the owner.
+     * Delegates retrieval to GetCharacterAction and returns the character
+     * with all related data as a resource. Returns 404 if the character
+     * does not exist or does not belong to the authenticated user.
      *
-     * @param int $id  The ID of the character
-     * @return \Illuminate\Http\JsonResponse|\App\Http\Resources\CharacterResource
+     * @param int $id
+     * @param GetCharacterAction $action
+     * @return JsonResponse
      */
-    public function show($id)
+    public function show(int $id, GetCharacterAction $action): CharacterResource|JsonResponse
     {
-        $character = Character::with([
-            'characterRace',
-            'characterClass.basicSkills',
-            'baseArmor',
-            'shield',
-            'baseWeapons',
-            'customWeapons',
-            'money',
-            'basicSkills'
-        ])
-            ->where('id', $id)
-            ->where('user_id', Auth::id())
-            ->first();
+        $character = $action->execute($id, Auth::id());
 
         if (!$character) {
-            return response()->json(['message' => 'Character nor found or nor authorized'], 404);
+            return response()->json(['message' => 'Character not found or not authorized'], 404);
         }
 
         return new CharacterResource($character);

@@ -4,5 +4,7 @@ namespace App\Repositories\Contracts\Character;
 
 interface CharacterRepositoryInterface
 {
-  public function findByIdForUser(int $id, int $userId);
+  public function getByIdForUser(int $characterId, int $userId);
+
+  public function getListForUser(int $userId);
 }

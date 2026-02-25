@@ -14,6 +14,6 @@ class GetCharacterAction
 
   public function execute(int $characterId, int $userId): ?Character
   {
-    return $this->characterRepository->findByIdForUser($characterId, $userId);
+    return $this->characterRepository->getByIdForUser($characterId, $userId);
   }
 }

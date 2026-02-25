@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use App\Actions\Character\GetCharacterAction;
+use App\Actions\Character\GetCharacterListAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CharacterCreateUpdateRequest;
 use App\Http\Resources\CharacterListResource;
 use App\Http\Resources\CharacterResource;
-use App\Models\characters\Character;
 use App\Services\CharacterService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Auth;
 
 class CharacterController extends Controller
@@ -30,7 +30,7 @@ class CharacterController extends Controller
      *
      * @param int $id
      * @param GetCharacterAction $action
-     * @return JsonResponse
+     * @return CharacterResource|JsonResponse
      */
     public function show(int $id, GetCharacterAction $action): CharacterResource|JsonResponse
     {
@@ -46,16 +46,16 @@ class CharacterController extends Controller
     /**
      * Returns a list of all characters belonging to the authenticated user.
      *
-     * Loads only basic information (e.g. name, class, race)
-     * since the overview list doesn’t need deeply nested relationships.
+     * Delegates retrieval to GetCharacterListAction and returns
+     * a resource collection containing basic character overview data
+     * (e.g. name, class, race).
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @param GetCharacterListAction $action The action handling the use-case.
+     * @return AnonymousResourceCollection
      */
-    public function getCharactersList()
+    public function getCharactersList(GetCharacterListAction $action): AnonymousResourceCollection
     {
-        $characters = Character::with(['characterRace', 'characterClass'])
-            ->where('user_id', Auth::id())
-            ->get();
+        $characters = $action->execute(Auth::id());
 
         return CharacterListResource::collection($characters);
     }

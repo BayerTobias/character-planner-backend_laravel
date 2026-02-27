@@ -184,10 +184,26 @@ test('updates existing character successfully', function () {
         ->assertJsonPath('base_armor_id', null)
         ->assertJsonPath('shield_id', null);
 
+    $response->assertJsonPath('custom_weapons.0.name', 'Custom Sword')
+        ->assertJsonPath('custom_weapons.0.min_str', 8)
+        ->assertJsonPath('custom_weapons.0.dmg', 5)
+        ->assertJsonPath('custom_weapons.0.attribute', 'STR')
+        ->assertJsonPath('custom_weapons.0.weight', 4.5)
+        ->assertJsonPath('custom_weapons.0.ini_bonus', 1)
+        ->assertJsonPath('custom_weapons.0.special', 'Flaming blade');
+
     $this->assertDatabaseHas('characters', [
         'name' => 'Updated Character',
         'user_id' => $user->id,
         'id' => $character->id
+    ]);
+
+    $this->assertDatabaseHas('custom_weapons', [
+        'character_id' => $character->id,
+        'name' => 'Custom Sword',
+        'min_str' => 8,
+        'dmg' => 5,
+        'attribute' => 'STR',
     ]);
 });
 

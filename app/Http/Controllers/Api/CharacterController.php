@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Character\CreateOrUpdateCharacterAction;
 use App\Actions\Character\GetCharacterAction;
 use App\Actions\Character\GetCharacterListAction;
+use App\Data\Character\CharacterCreateOrUpdateData;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CharacterCreateUpdateRequest;
 use App\Http\Resources\CharacterListResource;
@@ -60,23 +62,26 @@ class CharacterController extends Controller
         return CharacterListResource::collection($characters);
     }
 
-    /**
-     * Creates or updates a character based on the provided request data.
-     *
-     * This method:
-     *  - Validates the incoming request via CharacterCreateUpdateRequest
-     *  - Calls the CharacterService to handle create/update logic
-     *  - Reloads all relationships after saving to return a complete response
-     *  - Returns the character as a resource
-     *
-     * @param \App\Http\Requests\CharacterCreateUpdateRequest $request
-     * @return \App\Http\Resources\CharacterResource
-     */
-    public function createOrUpdateCharacter(CharacterCreateUpdateRequest $request)
-    {
-        $validatet = $request->validated();
 
-        $character = $this->characterService->createOrUpdateCharacter($validatet);
+    /**
+     * Creates a new character or updates an existing one for the authenticated user.
+     *
+     * Transforms the incoming request into a CharacterCreateOrUpdateData DTO
+     * and delegates the business logic to CreateOrUpdateCharacterAction.
+     * Returns a fully loaded CharacterResource including related entities
+     * such as race, class, weapons, skills and money.
+     *
+     * @param CharacterCreateUpdateRequest $request The validated request data.
+     * @param CreateOrUpdateCharacterAction $action The action handling the use-case.
+     * @return CharacterResource
+     */
+    public function createOrUpdateCharacter(
+        CharacterCreateUpdateRequest $request,
+        CreateOrUpdateCharacterAction $action
+    ): CharacterResource {
+        $data = CharacterCreateOrUpdateData::fromRequest($request, Auth::id());
+
+        $character = $action->execute($data);
 
         $character->load(
             [

@@ -28,7 +28,7 @@ class CustomWeaponData
       weight: $data['weight'] ?? null,
       iniBonus: $data['ini_bonus'] ?? null,
       special: $data['special'] ?? null,
-      weaponGroupIds: $data['weapon_group_ids'] ?? [],
+      weaponGroupIds: $data['weapon_group'] ?? [],
     );
   }
 

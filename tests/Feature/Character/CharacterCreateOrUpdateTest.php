@@ -5,6 +5,7 @@ use App\Models\characters\CharacterClass;
 use App\Models\characters\CharacterRace;
 use App\Models\Items\BaseArmor;
 use App\Models\Items\BaseWeapon;
+use App\Models\items\CustomWeapon;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\actingAs;
@@ -67,7 +68,7 @@ test('creates a new character successfully', function () {
         'custom_weapons' => [
             [
                 'name' => 'Custom Sword',
-                'weapon_group' => ['1', '2'],
+                'weapon_group' => [1, 2],
                 'min_str' => 8,
                 'dmg' => 5,
                 'attribute' => 'STR',
@@ -96,6 +97,20 @@ test('creates a new character successfully', function () {
         'kl' => 5,
         'mu' => 3,
         'tt' => 1,
+    ]);
+
+    $customWeapon = CustomWeapon::where('name', 'Custom Sword')->first();
+
+    expect($customWeapon)->not->toBeNull();
+
+    $this->assertDatabaseHas('custom_weapon_weapon_group', [
+        'custom_weapon_id' => $customWeapon->id,
+        'weapon_group_id' => 1,
+    ]);
+
+    $this->assertDatabaseHas('custom_weapon_weapon_group', [
+        'custom_weapon_id' => $customWeapon->id,
+        'weapon_group_id' => 2,
     ]);
 });
 
@@ -166,7 +181,7 @@ test('updates existing character successfully', function () {
         'custom_weapons' => [
             [
                 'name' => 'Custom Sword',
-                'weapon_group' => ['1', '2'],
+                'weapon_group' => [1, 4],
                 'min_str' => 8,
                 'dmg' => 5,
                 'attribute' => 'STR',
@@ -191,6 +206,22 @@ test('updates existing character successfully', function () {
         ->assertJsonPath('custom_weapons.0.weight', 4.5)
         ->assertJsonPath('custom_weapons.0.ini_bonus', 1)
         ->assertJsonPath('custom_weapons.0.special', 'Flaming blade');
+
+    $customWeapon = CustomWeapon::where('name', 'Custom Sword')->first();
+
+    expect($customWeapon)->not->toBeNull();
+
+    $this->assertDatabaseHas('custom_weapon_weapon_group', [
+        'custom_weapon_id' => $customWeapon->id,
+        'weapon_group_id' => 1,
+    ]);
+
+    $this->assertDatabaseHas('custom_weapon_weapon_group', [
+        'custom_weapon_id' => $customWeapon->id,
+        'weapon_group_id' => 4,
+    ]);
+
+
 
     $this->assertDatabaseHas('characters', [
         'name' => 'Updated Character',
